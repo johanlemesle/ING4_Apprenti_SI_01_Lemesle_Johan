@@ -18,6 +18,6 @@ Add a readme.md file with title, introduction, run instructions and your name
 
 To test the app, follow those instructions :
 
-1. run "npm run dev"
+1. run "node index.js"
 2. go to "<http://localhost:8080/>
 3. read the html content on the page

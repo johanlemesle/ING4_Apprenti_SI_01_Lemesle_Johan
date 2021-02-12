@@ -1,4 +1,8 @@
-# TP1 : 01.nodejs / Johan LEMESLE
+# ING4_APPRENTI_SI_01_LEMESLE_JOHAN
+
+## TP1 : 01.nodejs
+
+### **Assignments**
 
 Create a basic app with three routes:
 
@@ -14,10 +18,11 @@ Add a package.json file with you module declaration
 
 Add a readme.md file with title, introduction, run instructions and your name
 
-## Instructions
+### **Instructions**
 
 To test the app, follow those instructions :
 
 1. run "npm run dev"
 2. go to "<http://localhost:8080/>
 3. read the html content on the page
+4. To test 404 error properly, you need to oppen the app with Chrome

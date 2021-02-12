@@ -1,23 +1,25 @@
-# TP1 : 01.nodejs / Johan LEMESLE
+# ING4_APPRENTI_SI_01_LEMESLE_JOHAN
 
-Create a basic app with three routes:
+## TP2 : 02.expressjs
 
-- / explains how /hello works
-- /hello takes a name query parameter and
-  - random names replies hello [name]
-  - your own name replies with a short intro of yourself
-  - any other replies a 404 code with a not found message
+### **Assignments**
 
-You should have an index.js file with the server creation and handles.js defining the server's callback
+On va créer notre premier serveur nodejs avec express.
 
-Add a package.json file with you module declaration
+Le but de ce TP est de créer plusieurs routes.
 
-Add a readme.md file with title, introduction, run instructions and your name
+On va créer des routes dans le but de :
 
-## Instructions
+- Lister tous les utilisateurs
+- Récuperer les données d'un utilisateur
+- Créer un utilisateur
+- Modifier un utilisateur
+- Supprimer un utilisateur
+
+Vous n'aurez pas encore de base de données. Les données seront stockées en mémoire uniquement avec des variables globales (berk).
+
+### **Instructions**
 
 To test the app, follow those instructions :
 
-1. run "node index.js"
-2. go to "<http://localhost:8080/>
-3. read the html content on the page
+1. 

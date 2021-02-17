@@ -29,14 +29,14 @@ On va créer des routes dans le but de :
 
 ### **Instructions**
 
-To test the app, follow those instructions :
+To test the app, follow those instructions (you can put any variables you want in curl commands):
 
-1. GET
-    - run : ""
-    - run : ""
-2. POST
-    - run : ""
-3. PUT
-    - run : ""
-4. DELETE
-    - run : ""
+1. GET :
+    - run : "curl --request GET http://localhost:8000/users/"
+    - run : "curl --request GET http://localhost:8000/users/1"
+2. POST :
+    - run : "curl --header "Content-Type: application/json" --request POST --data '{"id":"4","name":"user4"}' http://localhost:8000/users"
+3. PUT :
+    - run : "curl --header "Content-Type: application/json" --request PUT --data '{"id":"1","name":"newname"}' http://localhost:8000/users/1"
+4. DELETE :
+    - run : "curl --header "Content-Type: application/json" --request DELETE http://localhost:8000/users/4"

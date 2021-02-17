@@ -1,8 +1,11 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import { List, Create, Update, Delete } from './methods.js';
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+//-----------------------------------------------------------//
 
 let users = [
   {
@@ -19,6 +22,9 @@ let users = [
   },
 ];
 
+
+//-----------------------------------------------------------//
+
 app.get('/', (req, res) => {
   const response = {
     message: 'Hello World!',
@@ -28,11 +34,8 @@ app.get('/', (req, res) => {
 });
 
 
-//-----------------------------------------------------------//
-
-
 app.get('/users', function (req, res) {
-  return res.status(200).json(users);
+  return res.status(200).json(List(users));
 });
 
 
@@ -40,7 +43,7 @@ app.get('/users/:id(\\d+)', function (req, res) {
   const userId = req.params.id;
 
   if (users.find(element => element.id == userId)) {
-    return res.status(200).json(userId);
+    return res.status(200).json(List(userId));
   }
   else {
     return res.status(404).json({ "error": 'user does not exist' });
@@ -56,7 +59,7 @@ app.post('/users', (req, res) => {
     return res.status(400).json({ "error": 'user already exists' });
   }
   else {
-    users.push(body);
+    Create(users, body);
     return res.status(201).json(body);
   }
 });
@@ -71,7 +74,7 @@ app.put('/users/:id(\\d+)', function (req, res) {
     return res.status(404).json({ "error": 'user does not exist' });
   }
   else {
-    users[id] = body;
+    Update(users, id, body);
     return res.status(202).json(body);
   }
 });
@@ -84,7 +87,7 @@ app.delete('/users/:id(\\d+)', function (req, res) {
     return res.status(404).json({ "error": 'user does not exist' });
   }
   else {
-    users.splice(id, 1);
+    Delete(users, id);
     return res.status(204).json(null);
   }
 });

@@ -1,8 +1,23 @@
-const express = require('express');
+import express from 'express';
+import bodyParser from 'body-parser';
 const app = express();
-const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+let users = [
+  {
+    id: '1',
+    name: 'user1',
+  },
+  {
+    id: '2',
+    name: 'user2',
+  },
+  {
+    id: '3',
+    name: 'user3',
+  },
+];
 
 app.get('/', (req, res) => {
   const response = {
@@ -13,57 +28,67 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/users', function (req, res) {
-  const users = [
-    {
-      id: 1,
-      name: 'user1',
-    },
-    {
-      id: 2,
-      name: 'user2',
-    },
-    {
-      id: 3,
-      name: 'user3',
-    },
-  ];
+//-----------------------------------------------------------//
 
+
+app.get('/users', function (req, res) {
   return res.status(200).json(users);
 });
 
-function waza(elem) {
-  return elem.id === 1;
-}
 
 app.get('/users/:id(\\d+)', function (req, res) {
   const userId = req.params.id;
 
-  if (users.find(e => e.id === 1))
-  {
+  if (users.find(element => element.id == userId)) {
     return res.status(200).json(userId);
   }
   else {
-    next(new Error('404'));
+    return res.status(404).json({ "error": 'user does not exist' });
   }
-
 });
+
 
 
 app.post('/users', (req, res) => {
   const body = req.body;
 
-  return res.status(201).json(body);
+  if (users.find(element => element.id == body.id) != undefined) {
+    return res.status(400).json({ "error": 'user already exists' });
+  }
+  else {
+    users.push(body);
+    return res.status(201).json(body);
+  }
 });
 
 
-app.put('/', function (req, res) {
-  // PUT
+app.put('/users/:id(\\d+)', function (req, res) {
+  const body = req.body;
+  const userId = req.params.id;
+  let id = users.findIndex(u => u.id == userId);
+
+  if (id == -1) {
+    return res.status(404).json({ "error": 'user does not exist' });
+  }
+  else {
+    users[id] = body;
+    return res.status(202).json(body);
+  }
 });
 
-app.delete('/', (req, res) => {
-  // DELETE
+
+app.delete('/users/:id(\\d+)', function (req, res) {
+  const userId = req.params.id;
+  let id = users.findIndex(u => u.id == userId);
+  if (users.find(element => element.id == userId) == undefined) {
+    return res.status(404).json({ "error": 'user does not exist' });
+  }
+  else {
+    users.splice(id, 1);
+    return res.status(204).json(null);
+  }
 });
+
 
 app.listen(8000, function () {
   console.log(`server listening on 8000`);

@@ -1,23 +1,23 @@
-# TP1 : 01.nodejs / Johan LEMESLE
 
-Create a basic app with three routes:
+# ECE WebTech Chat
 
-- / explains how /hello works
-- /hello takes a name query parameter and
-  - random names replies hello [name]
-  - your own name replies with a short intro of yourself
-  - any other replies a 404 code with a not found message
+This is a chat application we wrote to learn the basics and the not so basics features of backend and frontend web programing. It leverages Node.js and React as well as complementary technologies such as unit testing with Mocha and Should.js, embeded storage with LevelDB, REST APIs, ... If we have time, we'll also play with GraphQL and Socket.io
 
-You should have an index.js file with the server creation and handles.js defining the server's callback
+## Usage
 
-Add a package.json file with you module declaration
+Start the web application:
 
-Add a readme.md file with title, introduction, run instructions and your name
+```bash
+./bin/server.js 
+Chat is waiting for you at http://localhost:3000
+```
+
+Run the tests with mocha:
+
+```bash
+npm run test
+```
 
 ## Instructions
 
-To test the app, follow those instructions :
-
-1. run "node index.js"
-2. go to "<http://localhost:8080/>
-3. read the html content on the page
+See "../lab.md" for the lab instructions.

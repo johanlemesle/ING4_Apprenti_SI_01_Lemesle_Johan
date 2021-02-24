@@ -35,10 +35,19 @@ exports.show = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-    //TODO update channel
-    //Poser l'algo par écrit avant (ACD)
+    const channelId = req.params.channelId;
+
+    const channel = await updateChannel(channelId, req.body);
+
+    if (!channel) {
+        return res.status(400).json({
+            name: 'Name is required.'
+        });
+    }
+    return res.status(200).json(channel);
 };
 
+
 exports.delete = async (req, res) => {
-    //TODO delete channel
+    return res.status(201).json(await deleteChannel(req.params.channelId));
 };

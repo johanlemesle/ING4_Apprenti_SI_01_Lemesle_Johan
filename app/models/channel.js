@@ -67,12 +67,37 @@ const showChannel = channelId => {
 };
 
 const updateChannel = async (channelId, body) => {
+    if (!body.name) {
+        return null //ne pas oublier les blindages !
+    }
+    const channel = {
+        id: channelId,
+        name: body.name,
+    }
+    return new Promise((resolve, reject) => {
+        db.put(`channels:${channel.id}`, JSON.stringify(channel), (err) => {
+            if (err) {
+                //TODO blindage erreur
+                reject(err);
+            }
 
+            resolve(channel);//On a "jsonifié" notre channel lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
+        })
+    })
 };
+
 
 const deleteChannel = async channelId => {
-
+    return new Promise(((resolve, reject) => {
+        db.del(`channels:${channelId}`, (err) => {
+            if (err) {
+                reject(err);
+            }
+            resolve({ message: ` deleted ${channelId} successfully` });
+        });
+    }));
 };
+
 
 module.exports = {
     listAllChannels,

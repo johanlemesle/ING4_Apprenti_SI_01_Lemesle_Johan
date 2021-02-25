@@ -13,8 +13,24 @@ app.get('/', (req, res) => {
     ].join(''));
 });
 
+app.post('/', (req, res) => {
+    
+    
+
+});
+
 const channelRoutes = require('./app/routes/channel');
 
 app.use('/api/v1/channels', channelRoutes);
 
+const userRoutes = require('./app/routes/user');
+
+app.use('/api/v1/users', userRoutes);
+
+const messageRoutes = require('./app/routes/message');
+
+app.use('/api/v1/messages', messageRoutes);
+
 module.exports = app;
+
+

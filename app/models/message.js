@@ -1,107 +1,109 @@
 const {v4: uuid} = require('uuid');
 const db = require('../../db_config');
 
-const listAllChannels = async () => {
+const listAllMessages = async () => {
     return new Promise((resolve, reject) => {
-        const channels = [];
+        const messages = [];
 
         const options = {
-            gt: 'channels:',
-            lte: "channels" + String.fromCharCode(":".charCodeAt(0) + 1),
+            gt: 'messages:',
+            lte: "messages" + String.fromCharCode(":".charCodeAt(0) + 1),
         };
 
         //https://github.com/Level/level#createReadStream
         db.createReadStream(options)
             .on('data', ({key, value}) => {
-                channels.push(JSON.parse(value));
+                messages.push(JSON.parse(value));
             })
             .on('error', (err) => {
                 reject(err)
             })
             .on('end', () => {
-                resolve(channels);
+                resolve(messages);
             });
     })
 
 };
 
-const createNewChannel = body => {
-    if(!body.name) {
+const createNewMessage = body => {
+    if(!body.content) {
         return null //ne pas oublier les blindages !
     }
 
-    //on créé un objet channel
-    const channel = {
+    //on créé un objet message
+    const message = {
         id: uuid(),
-        name: body.name,
+        content: body.content,
+        created_at: body.created_at,
     };
 
     return new Promise(((resolve, reject) => {
         //https://github.com/Level/level#put
         // on insère en base de données
-        db.put(`channels:${channel.id}`, JSON.stringify(channel), (err) => {
+        db.put(`messages:${message.id}`, JSON.stringify(message), (err) => {
             if(err) {
                 //TODO blindage erreur
                 reject(err);
             }
 
-            resolve(channel);//On a "jsonifié" notre channel lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
+            resolve(message);//On a "jsonifié" notre message lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
         })
     }));
 };
 
-const showChannel = channelId => {
+const showMessage = messageId => {
     //on a un code asynchrone, on va donc utiliser les promesses pour nous simplifier la vie...
     //https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise
     //https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Utiliser_les_promesses
     return new Promise(((resolve, reject) => {
-        db.get(`channels:${channelId}`, (err, value) => {
+        db.get(`messages:${messageId}`, (err, value) => {
             if(err) {
                 //TODO blindage erreur
                 reject(err);
             }
 
-            resolve(JSON.parse(value));//On a "jsonifié" notre channel lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
+            resolve(JSON.parse(value));//On a "jsonifié" notre message lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
         });
     }));
 };
 
-const updateChannel = async (channelId, body) => {
-    if (!body.name) {
+const updateMessage = async (messageId, body) => {
+    if (!body.content) {
         return null //ne pas oublier les blindages !
     }
-    const channel = {
-        id: channelId,
-        name: body.name,
+    const message = {
+        id: messageId,
+        content: body.content,
+        created_at: body.created_at,
     }
     return new Promise((resolve, reject) => {
-        db.put(`channels:${channel.id}`, JSON.stringify(channel), (err) => {
+        db.put(`messages:${message.id}`, JSON.stringify(message), (err) => {
             if (err) {
                 //TODO blindage erreur
                 reject(err);
             }
 
-            resolve(channel);//On a "jsonifié" notre channel lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
+            resolve(message);//On a "jsonifié" notre message lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
         })
     })
 };
 
 
-const deleteChannel = async channelId => {
+const deleteMessage = async messageId => {
     return new Promise(((resolve, reject) => {
-        db.del(`channels:${channelId}`, (err) => {
+        db.del(`messages:${messageId}`, (err) => {
             if (err) {
                 reject(err);
             }
-            resolve({ message: ` deleted ${channelId} successfully` });
+            resolve({ message: ` deleted ${messageId} successfully` });
         });
     }));
 };
 
 module.exports = {
-    listAllChannels,
-    createNewChannel,
-    showChannel,
-    updateChannel,
-    deleteChannel,
+    listAllMessages,
+    createNewMessage,
+    showMessage,
+    updateMessage,
+    deleteMessage,
 };

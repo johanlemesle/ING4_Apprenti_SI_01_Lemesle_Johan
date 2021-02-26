@@ -35,6 +35,7 @@ exports.show = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+    //const{body}= req;
     const channelId = req.params.channelId;
 
     const channel = await updateChannel(channelId, req.body);
@@ -44,7 +45,7 @@ exports.update = async (req, res) => {
             name: 'Name is required.'
         });
     }
-    return res.status(200).json(channel);
+    return res.status(201).json(channel);
 };
 
 

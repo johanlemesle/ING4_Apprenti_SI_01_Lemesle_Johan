@@ -67,8 +67,47 @@ describe('channel api tests', () => {
 	});
 
 	//TODO show channel with id who does not exist
+	it('show channel with id who does not exist', async () => {
+		// Create a channel
+		const channel = {
+			id: '123',
+			name: 'name',
+		};
+		await db.put(`channels:${channel.id}`, JSON.stringify(channel));
+
+		// Ensure we list the channels correctly
+		await request(app)
+			.get('/api/v1/channels/123')
+			.expect(200, {
+				id: '123',
+				name: 'name',
+			});
+	});
 
 	//TODO update channel with all cases
+	it('update channel with all cases', async () => {
+		// Create a channel
+		const channel = {
+			id: '123',
+			name: 'name',
+		};
+		await db.put(`channels:${channel.id}`, JSON.stringify(channel));
+		await request(app)
+			.put('/api/v1/channels/123')
+			.send({name: 'channel 123'})
+			.expect(201);
+	});
 
 	//TODO delete channel with all cases
+	it('delete channel with all cases', async () => {
+		// Create a channel
+		const channel = {
+			id: '123',
+			name: 'name',
+		};
+		await db.put(`channels:${channel.id}`, JSON.stringify(channel));
+		await request(app)
+			.delete('/api/v1/channels/123')
+			.expect(201);
+	});
 });

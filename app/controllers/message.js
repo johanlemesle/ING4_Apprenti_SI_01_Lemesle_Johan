@@ -19,7 +19,7 @@ exports.create = async (req, res) => {
 
     if(! message) {
         return res.status(400).json({
-            name: 'Name is required.'
+            content: 'Content is required.'
         });
     }
 
@@ -41,10 +41,10 @@ exports.update = async (req, res) => {
 
     if (!message) {
         return res.status(400).json({
-            name: 'Name is required.'
+            content: 'Content is required.'
         });
     }
-    return res.status(200).json(message);
+    return res.status(201).json(message);
 };
 
 

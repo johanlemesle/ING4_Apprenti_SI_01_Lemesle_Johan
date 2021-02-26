@@ -25,8 +25,8 @@ const listAllMessages = async () => {
 
 };
 
-const createNewMessage = body => {
-    if(!body.content) {
+const createNewMessage = (body, channelid) => {
+    if(!body.content || !body.created_at || !channelid) {
         return null //ne pas oublier les blindages !
     }
 
@@ -35,6 +35,7 @@ const createNewMessage = body => {
         id: uuid(),
         content: body.content,
         created_at: body.created_at,
+        channelid: channelid,
     };
 
     return new Promise(((resolve, reject) => {
@@ -67,7 +68,7 @@ const showMessage = messageId => {
     }));
 };
 
-const updateMessage = async (messageId, body) => {
+const updateMessage = async (messageId, body, channelId) => {
     if (!body.content) {
         return null //ne pas oublier les blindages !
     }
@@ -75,6 +76,7 @@ const updateMessage = async (messageId, body) => {
         id: messageId,
         content: body.content,
         created_at: body.created_at,
+        channelId : channelId,
     }
     return new Promise((resolve, reject) => {
         db.put(`messages:${message.id}`, JSON.stringify(message), (err) => {

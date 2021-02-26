@@ -44,7 +44,7 @@ exports.update = async (req, res) => {
             name: 'Name is required.'
         });
     }
-    return res.status(200).json(user);
+    return res.status(201).json(user);
 };
 
 

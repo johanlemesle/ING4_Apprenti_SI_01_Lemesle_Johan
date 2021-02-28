@@ -1,50 +1,48 @@
 const {
     listAllMessages,
     createNewMessage,
-    showMessage,
     updateMessage,
     deleteMessage,
 } = require('../models/message');
 
 exports.index = async (req, res) => {
-    const messages = await listAllMessages();
+    const channelId = req.params.channelId;
+    const messages = await listAllMessages(channelId);
 
     return res.status(200).json(messages);
 };
 
 exports.create = async (req, res) => {
-    const {body} = req; //on destructure req pour récuperer le body
+    const {body} = req; 
 
     const message = await createNewMessage(body);
 
     if(! message) {
         return res.status(400).json({
-            content: 'Content is required.'
+            content: 'Content is required.',
+            created_at: 'Created_at is required.',
+            channelId: 'Channel_id is required'
         });
     }
 
-    return res.status(201).json(message); //Code 201 pour une création : https://fr.wikipedia.org/wiki/Liste_des_codes_HTTP
-};
-
-exports.show = async (req, res) => {
-    const messageId = req.params.messageId;
-
-    const message = await showMessage(messageId);
-
-    return res.status(200).json(message); //je n'ai pas blindé volontairement message, à vous de le faire ;)
+    return res.status(201).json(message); 
 };
 
 exports.update = async (req, res) => {
+    const {body} = req; 
     const messageId = req.params.messageId;
 
-    const message = await updateMessage(messageId, req.body);
+    const message = await updateMessage(messageId, body);
 
-    if (!message) {
+    if(! message) {
         return res.status(400).json({
-            content: 'Content is required.'
+            content: 'Content is required.',
+            created_at: 'Created_at is required.',
+            channelId: 'Channel_id is required'
         });
     }
-    return res.status(201).json(message);
+
+    return res.status(201).json(message); 
 };
 
 

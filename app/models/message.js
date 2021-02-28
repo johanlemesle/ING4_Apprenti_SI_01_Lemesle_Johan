@@ -1,7 +1,7 @@
 const {v4: uuid} = require('uuid');
 const db = require('../../db_config');
 
-const listAllMessages = async () => {
+const listAllMessages = async (channelId) => {
     return new Promise((resolve, reject) => {
         const messages = [];
 
@@ -13,7 +13,15 @@ const listAllMessages = async () => {
         //https://github.com/Level/level#createReadStream
         db.createReadStream(options)
             .on('data', ({key, value}) => {
-                messages.push(JSON.parse(value));
+                const p = [];
+                p.push(JSON.parse(value));
+                const tableau = p.map(message => message.channelId);
+
+                for (var i = 0; i < tableau.length; i++) {
+                    if(channelId == tableau[i]) {
+                        messages.push(JSON.parse(value));
+                    }
+                }
             })
             .on('error', (err) => {
                 reject(err)
@@ -25,69 +33,51 @@ const listAllMessages = async () => {
 
 };
 
-const createNewMessage = (body, channelid) => {
-    if(!body.content || !body.created_at || !channelid) {
-        return null //ne pas oublier les blindages !
+
+const createNewMessage = body => {
+    if(!body.content || !body.created_at || !body.channelId) {
+        return null 
     }
 
-    //on créé un objet message
     const message = {
         id: uuid(),
         content: body.content,
         created_at: body.created_at,
-        channelid: channelid,
+        channelId: body.channelId
     };
 
     return new Promise(((resolve, reject) => {
-        //https://github.com/Level/level#put
-        // on insère en base de données
         db.put(`messages:${message.id}`, JSON.stringify(message), (err) => {
             if(err) {
-                //TODO blindage erreur
                 reject(err);
             }
 
-            resolve(message);//On a "jsonifié" notre message lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
+            resolve(message);
         })
     }));
 };
 
-const showMessage = messageId => {
-    //on a un code asynchrone, on va donc utiliser les promesses pour nous simplifier la vie...
-    //https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise
-    //https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Utiliser_les_promesses
-    return new Promise(((resolve, reject) => {
-        db.get(`messages:${messageId}`, (err, value) => {
-            if(err) {
-                //TODO blindage erreur
-                reject(err);
-            }
-
-            resolve(JSON.parse(value));//On a "jsonifié" notre message lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
-        });
-    }));
-};
-
-const updateMessage = async (messageId, body, channelId) => {
-    if (!body.content) {
-        return null //ne pas oublier les blindages !
+const updateMessage = async (messageId, body) => {
+    if(!body.content || !body.created_at || !body.channelId) {
+        return null 
     }
+
     const message = {
         id: messageId,
         content: body.content,
         created_at: body.created_at,
-        channelId : channelId,
-    }
-    return new Promise((resolve, reject) => {
+        channelId: body.channelId
+    };
+
+    return new Promise(((resolve, reject) => {
         db.put(`messages:${message.id}`, JSON.stringify(message), (err) => {
-            if (err) {
-                //TODO blindage erreur
+            if(err) {
                 reject(err);
             }
 
-            resolve(message);//On a "jsonifié" notre message lorsque on l'a créé ligne 24. Il faut faire l'opération inverse
+            resolve(message);
         })
-    })
+    }));
 };
 
 
@@ -105,7 +95,6 @@ const deleteMessage = async messageId => {
 module.exports = {
     listAllMessages,
     createNewMessage,
-    showMessage,
     updateMessage,
     deleteMessage,
 };

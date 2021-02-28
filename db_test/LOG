@@ -1,5 +1,5 @@
-2021/02/26-09:59:20.756 1e00 Recovering log #27
-2021/02/26-09:59:20.756 1e00 Level-0 table #29: started
-2021/02/26-09:59:20.770 1e00 Level-0 table #29: 866 bytes OK
-2021/02/26-09:59:20.786 1e00 Delete type=0 #27
-2021/02/26-09:59:20.786 1e00 Delete type=3 #25
+2021/02/28-23:27:36.194 37ac Recovering log #93
+2021/02/28-23:27:36.194 37ac Level-0 table #95: started
+2021/02/28-23:27:36.199 37ac Level-0 table #95: 942 bytes OK
+2021/02/28-23:27:36.203 37ac Delete type=0 #93
+2021/02/28-23:27:36.203 37ac Delete type=3 #91

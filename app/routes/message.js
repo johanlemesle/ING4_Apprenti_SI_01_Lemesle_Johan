@@ -3,10 +3,9 @@ const router = express.Router();
 
 const messageController = require('../controllers/message');
 
-router.get('/', messageController.index);
+router.get('/:channelId', messageController.index);
 router.post('/', messageController.create);
-router.get('/:messageId', messageController.show);
-router.put('/:messageId', messageController.update);
-router.delete('/:messageId', messageController.delete);
+router.put('/:messageId/channels/:channelId', messageController.update);
+router.delete('/:messageId/channels/:channelId', messageController.delete);
 
 module.exports = router;

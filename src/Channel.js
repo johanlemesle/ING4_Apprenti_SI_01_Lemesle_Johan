@@ -1,51 +1,10 @@
 import React, { useState } from 'react';
-import './App.css';
-
-//Permet d'inserer un retour à la ligne
-//https://github.com/yosuke-furukawa/react-nl2br#readme
-const nl2br = require('react-nl2br');
-
+import Messages from './Messages';
+import MessageSend from './MessageSend'
 
 const styles = {
 
-    messages: {
-        flex: '1 1 auto',
-        height: '100%',
-        overflow: 'auto',
-        '& ul': {
-            'margin': 0,
-            'padding': 0,
-            'textIndent': 0,
-            'listStyleType': 0
-        }
-    },
-    message: {
-        margin: '.2rem',
-        padding: '.2rem',
-        // backgroundColor: '#66728E',
-        ':hover': {
-            backgroundColor: 'rgba(255,255,255,.2)'
-        }
-    },
-    form: {
-        borderTop: '2px solid #373B44',
-        padding: '.5rem',
-        display: 'flex'
-    },
-    content: {
-        flex: '1 1 auto',
-        marginRight: '.5rem'
-    },
-    send: {
-        backgroundColor: '#D6DDEC',
-        padding: '.2rem .5rem',
-        border: 'none',
-        ':hover': {
-            backgroundColor: '#2A4B99',
-            cursor: 'pointer',
-            color: '#fff'
-        }
-    },
+    
     channel: {
         height: '100%',
         flex: '1 1 auto',
@@ -56,49 +15,10 @@ const styles = {
 
 };
 
-const MessageForm = ({
-    addMessage
-}) => {
-    const [content, setContent] = useState('');
 
-    //You can improve this function with one hook (useCallback) :
-    // https://fr.reactjs.org/docs/hooks-intro.html
-    // https://fr.reactjs.org/docs/hooks-reference.html
-    const onSubmit = (e) => {
-        addMessage({
-            content,
-            author: 'david',
-            creation: Date.now(),
-        });
-
-        setContent('');
-    };
-
-    //You can improve this function with one hook (useCallback) :
-    const onChange = (e) => {
-        setContent(e.target.value);
-    };
-
-    return (
-        <div style={styles.form}>
-            <textarea
-                onChange={onChange}
-                name="content"
-                rows={5}
-                style={styles.content}
-                value={content}
-            />
-            <button onClick={onSubmit} type="submit" style={styles.send}>
-                Send
-</button>
-        </div>
-    )
-};
 
 export default ({
-    channel = {
-        name: 'Fake channel'
-    }
+    
 }) => {
     const [messages, setMessages] = useState([{
         author: 'sergei',
@@ -186,24 +106,8 @@ Consider adding syntax highlight support with a library like
 
     return (
         <div style={styles.channel}>
-        <div style={styles.messages}>
-            <h1>Messages for {channel.name}</h1>
-            <ul>
-                {messages.map((message, i) => (
-                    <li key={i} style={styles.message}>
-                        <p>
-                            <span>{message.author}</span>
-                            {' '}
-                            <span>{(new Date(message.creation)).toString()}</span>
-                        </p>
-                        <div>
-                            {nl2br(message.content)}
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
-        <MessageForm addMessage={addMessage} />
+        <Messages messages={messages}/>
+        <MessageSend addMessage={addMessage}/>
         </div>
     );
 }

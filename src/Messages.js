@@ -30,7 +30,7 @@ const styles = {
 
 export default ({
     channel = {
-        name: 'Fake channel'
+        name: 'French football team'
     },
     messages
                 }) => {
@@ -38,7 +38,7 @@ export default ({
 
     return (
         <div style={styles.messages}>
-            <h1>Messages for {channel.name}</h1>
+            <h2>Messages for {channel.name}</h2>
             <ul>
                 {messages.map((message, i) => (
                     <li key={i} style={styles.message}>

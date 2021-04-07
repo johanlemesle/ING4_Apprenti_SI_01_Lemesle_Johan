@@ -2,8 +2,24 @@
 @import-normalize;
 
 .app {
-  color: #fff;
+  color: #000;
   position: absolute;
   height: 100%;
   width: 100%;
+}
+
+.App-header {
+  background: linear-gradient(blue, white);
+}
+
+.app-footer {
+  background: linear-gradient(white, red);
+}
+
+h2{
+  text-transform: uppercase;
+}
+
+h1{
+  text-align: center;
 }

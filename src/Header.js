@@ -21,6 +21,6 @@ export default ({
 }) => {
     return (
     <header className="App-header" style={styles.header}>
-        <h1>header</h1>
+        <h1>⭐⭐</h1>
     </header>);
 }

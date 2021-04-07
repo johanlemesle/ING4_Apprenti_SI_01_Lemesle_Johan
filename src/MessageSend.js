@@ -12,7 +12,7 @@ const styles = {
         marginRight: '.5rem'
     },
     send: {
-        backgroundColor: '#D6DDEC',
+        backgroundColor: '#3bec17',
         padding: '.2rem .5rem',
         border: 'none',
         ':hover': {

@@ -5,7 +5,7 @@ import Channel from './Channel';
 const styles = {
 
     main: {
-        backgroundColor: '#373B44',
+        backgroundColor: '#ffffff',
         flex: '1 1 auto',
         display: 'flex',
         flexDirection: 'row',

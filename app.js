@@ -17,9 +17,11 @@ app.use(morgan('tiny'))                         // Activation de Morgan
 app.use(express.json())                         // Activation du raw (json)
 app.use(express.urlencoded({ extended: true })) // Activation de x-wwww-form-urlencoded
 
+
+
 // Liste des utilisateurs
 const users = [
-    { id: 1, username: 'admin', password: 'password123' }
+    { id: 1, email: 'admin@ece.fr', password: 'pwd123' }
 ]
 
 /* Ici les futures routes */
@@ -47,12 +49,12 @@ app.get('/', (req, res) => {
 /* Formulaire de connexion */
 app.post('/login', (req, res) => {
     // Pas d'information à traiter
-    if (!req.body.username || !req.body.password) {
-        return res.status(400).json({ message: 'Error. Please enter the correct username and password' })
+    if (!req.body.email || !req.body.password) {
+        return res.status(400).json({ message: 'Error. Please enter the correct email and password' })
     }
 
     // Checking
-    const user = users.find(u => u.username === req.body.username && u.password === req.body.password)
+    const user = users.find(u => u.email === req.body.email && u.password === req.body.password)
 
     // Pas bon
     if (!user) {
@@ -61,7 +63,7 @@ app.post('/login', (req, res) => {
 
     const token = jwt.sign({
         id: user.id,
-        username: user.username
+        email: user.email
     }, SECRET, { expiresIn: '3 hours' })
 
     return res.json({ access_token: token })
@@ -96,6 +98,8 @@ const checkTokenMiddleware = (req, res, next) => {
         }
     })
 }
+
+
 
 
 const channelRoutes = require('./app/routes/channel_routes');
